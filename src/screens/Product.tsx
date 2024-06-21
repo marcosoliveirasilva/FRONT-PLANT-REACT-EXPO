@@ -23,7 +23,7 @@ export default function Product() {
 
   const toggleExpand = () => {
     const newValue = !expanded;
-  
+
     Animated.timing(animation, {
       toValue: newValue ? 1 : 0,
       duration: 300,
@@ -47,9 +47,9 @@ export default function Product() {
   });
 
   const images= [
-    { image: require('../images/plant_desease/cereja_oidio/01.jpeg') },
-    { image: require('../images/plant_desease/cereja_oidio/02.jpeg') },
-    { image: require('../images/plant_desease/cereja_oidio/03.jpeg') },
+    { image: require('../../images/plant_desease/cereja_oidio/01.jpeg') },
+    { image: require('../../images/plant_desease/cereja_oidio/02.jpeg') },
+    { image: require('../../images/plant_desease/cereja_oidio/03.jpeg') },
   ]
 
   const openGoogle = () => {
@@ -57,7 +57,7 @@ export default function Product() {
   };
 
   const _renderItem = (item, index) => {
-    return (      
+    return (
       <View style={styles.carouselItem} key={index}>
         <ImageBackground
         source={item.image}
@@ -80,7 +80,7 @@ export default function Product() {
         </Text>
       </View>
 
-      <View style={styles.pagerWidget}> 
+      <View style={styles.pagerWidget}>
           <PagerView
             ref={pagerRef}
             style={styles.pagerView}
@@ -88,7 +88,7 @@ export default function Product() {
             onPageSelected={(event) => setCurrentIndex(event.nativeEvent.position)}
           >
             {images.map((item, index) => _renderItem(item, index))}
-          </PagerView>   
+          </PagerView>
       </View>
 
       <View style={styles.description}>
@@ -132,7 +132,7 @@ export default function Product() {
             Av. Juracy Magalhães, 172C - Jurema, Vitória da Conquista - BA, 45023-490
           </Text>
         </View>
-        
+
       </View>
 
       {expanded && (
@@ -148,7 +148,7 @@ export default function Product() {
 };
 
 const styles = StyleSheet.create({
-  contentWeatherWidget: {  
+  contentWeatherWidget: {
     overflow: 'hidden',
     width: 370,
     marginTop: 10,
@@ -226,7 +226,7 @@ const styles = StyleSheet.create({
 
   descriptionText: {
     fontSize: 15,
-    textAlign: 'justify',    
+    textAlign: 'justify',
   },
 
   fonte: {
@@ -242,7 +242,7 @@ const styles = StyleSheet.create({
 
     overflow: 'hidden',
     //whiteSpace: 'nowrap',
-  }, 
+  },
 
   container: {
     flex: 1,
@@ -265,15 +265,15 @@ const styles = StyleSheet.create({
   itemTitle: {
     fontSize: 27,
     fontWeight: 'bold',
-  },  
+  },
 
   itemInfo: {
     fontSize: 17,
     textAlign: 'justify',
     fontWeight: '500',
     fontStyle: 'italic',
-  }, 
-  
+  },
+
   pagerWidget: {
     marginTop: 15,
     borderRadius: 15,
@@ -284,7 +284,7 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
   },
 
-  backgroundFeed: { 
+  backgroundFeed: {
     height: '100%',
     width: '100%',
     overflow: 'hidden',
@@ -305,7 +305,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 5,
   },
-  
+
   scrollViewContent: {
     flexGrow: 1,
   },

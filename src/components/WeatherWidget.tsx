@@ -5,17 +5,17 @@ import axios from 'axios';
 
 import Map from './MapWidget'
 import FeedWidget from './FeedWidget'
-import ScannWidget from './ScannWidget'
+//import ScannWidget from './ScannWidget'
 import { rgbaColor } from 'react-native-reanimated/lib/typescript/reanimated2/Colors';
 
 export const ThemeContext = createContext(["light", () => {}]);
 
-export default function Weather() {  
+export default function Weather() {
   const themeHook = useState("dark");
   const [icon, setIcon] = useState('10d');
   const [currentTemperature, setCurrentTemperature] = useState('31');
   const [locationCoords, setLocationCoords] = useState(null);
-  const [locationName, setLocationName] = useState('BR, Vitória da Conquista');  
+  const [locationName, setLocationName] = useState('BR, Vitória da Conquista');
   const [temperatureMin, setTemperatureMin] = useState('21');
   const [temperatureMax, setTemperatureMax] = useState('32');
   const [wind, setWind] = useState('7');
@@ -26,7 +26,7 @@ export default function Weather() {
 
   const toggleExpand = () => {
     const newValue = !expanded;
-  
+
     Animated.timing(animation, {
       toValue: newValue ? 1 : 0,
       duration: 300,
@@ -98,13 +98,13 @@ export default function Weather() {
     <ThemeContext.Provider value={themeHook}>
       <ScrollView>
       <View style={styles.feed}>
-        <TouchableOpacity style={styles.weatherWidget} onPress={toggleExpand}>   
-          <View>                 
+        <TouchableOpacity style={styles.weatherWidget} onPress={toggleExpand}>
+          <View>
             <Text style={styles.localizationText}>{locationName}</Text>
             <Text style={styles.timeText}>{currentTime}</Text>
           </View>
-                      
-          <View style={styles.temperatureContainer}>            
+
+          <View style={styles.temperatureContainer}>
             <Image
               source={{ uri: `https://openweathermap.org/img/wn/${icon}@2x.png` }}
               style={styles.weatherIcon}
@@ -119,7 +119,7 @@ export default function Weather() {
             style={[styles.contentWeatherWidget, { height: heightInterpolate, opacity: fieldOpacity, }]}
           >
             <Text style={styles.infoText}>Informações adcionais:</Text>
-            <View style={styles.addtionalInfo}>              
+            <View style={styles.addtionalInfo}>
               <View style={styles.card}>
                 <Text style={styles.text}>Vento</Text>
                 <Text style={[styles.text, { color: 'black' }]}>{wind}km/h</Text>
@@ -142,8 +142,8 @@ export default function Weather() {
 
         <Map />
         <FeedWidget />
-        <ScannWidget />
-        
+
+
 
       </View>
       </ScrollView>
@@ -151,7 +151,7 @@ export default function Weather() {
     </View>
   );
 }
-
+//<ScannWidget />
 const styles = StyleSheet.create({
   weatherWidget: {
     backgroundColor: 'rgba(76, 175, 80, 0.1)',
@@ -168,11 +168,11 @@ const styles = StyleSheet.create({
     height: 100
   },
 
-  contentWeatherWidget: {  
+  contentWeatherWidget: {
     backgroundColor: 'rgba(76, 175, 80, 0.1)',
     borderColor: 'rgba(107, 142, 35, 0.3)',
     borderWidth: 2,
-    borderStyle: 'solid', 
+    borderStyle: 'solid',
     overflow: 'hidden',
     width: 370,
     marginTop: 10,

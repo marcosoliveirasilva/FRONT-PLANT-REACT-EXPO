@@ -30,7 +30,7 @@ export default function FeedWidget() {
   ];
 
   const _renderItem = (item, index) => {
-    return (      
+    return (
       <View style={styles.carouselItem} key={index}>
         <Text style={styles.itemTitle}>{item.title}</Text>
         <Text style={styles.itemInfo}>{item.info}</Text>
@@ -42,7 +42,7 @@ export default function FeedWidget() {
     <View style={styles.feedWidget}>
       <ImageBackground
         blurRadius={3}
-        source={require('../images/background_feed.jpeg')}
+        source={require('../../images/background_feed.jpeg')}
         style={styles.backgroundFeed}
       >
         <PagerView
@@ -53,7 +53,7 @@ export default function FeedWidget() {
         >
           {carouselItems.map((item, index) => _renderItem(item, index))}
         </PagerView>
-      </ImageBackground>      
+      </ImageBackground>
     </View>
   );
 };
@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
   },
 
-  backgroundFeed: { 
+  backgroundFeed: {
     height: '100%',
     width: '100%',
     opacity: .9,
@@ -94,7 +94,7 @@ const styles = StyleSheet.create({
   itemTitle: {
     fontSize: 24,
     fontWeight: 'bold',
-    
+
     height: 50,
   },
 

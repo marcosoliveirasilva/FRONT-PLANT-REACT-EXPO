@@ -25,13 +25,13 @@ export default function Diagnostic() {
   };
 
   const images= [
-    { image: require('../images/plant_desease/cereja_oidio/01.jpeg') },
-    { image: require('../images/plant_desease/cereja_oidio/02.jpeg') },
-    { image: require('../images/plant_desease/cereja_oidio/03.jpeg') },
+    { image: require('../../images/plant_desease/cereja_oidio/01.jpeg') },
+    { image: require('../../images/plant_desease/cereja_oidio/02.jpeg') },
+    { image: require('../../images/plant_desease/cereja_oidio/03.jpeg') },
   ]
 
   const _renderItem = (item, index) => {
-    return (      
+    return (
       <View style={styles.carouselItem} key={index}>
         <ImageBackground
         source={item.image}
@@ -51,7 +51,7 @@ export default function Diagnostic() {
         </View>
       </View>
 
-      <View style={styles.pagerWidget}> 
+      <View style={styles.pagerWidget}>
           <PagerView
             ref={pagerRef}
             style={styles.pagerView}
@@ -59,7 +59,7 @@ export default function Diagnostic() {
             onPageSelected={(event) => setCurrentIndex(event.nativeEvent.position)}
           >
             {images.map((item, index) => _renderItem(item, index))}
-          </PagerView>   
+          </PagerView>
       </View>
 
       <View style={styles.desease}>
@@ -130,7 +130,7 @@ const styles = StyleSheet.create({
   deseaseText: {
     fontSize: 15,
     textAlign: 'justify',
-    
+
   },
 
   fonte: {
@@ -146,7 +146,7 @@ const styles = StyleSheet.create({
 
     overflow: 'hidden',
     //whiteSpace: 'nowrap',
-  }, 
+  },
 
   container: {
     flex: 1,
@@ -168,15 +168,15 @@ const styles = StyleSheet.create({
   itemTitle: {
     fontSize: 27,
     fontWeight: 'bold',
-  },  
+  },
 
   itemInfo: {
     fontSize: 17,
     textAlign: 'justify',
     fontWeight: '500',
     fontStyle: 'italic',
-  }, 
-  
+  },
+
   pagerWidget: {
     marginTop: 15,
     borderRadius: 15,
@@ -187,7 +187,7 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
   },
 
-  backgroundFeed: { 
+  backgroundFeed: {
     height: '100%',
     width: '100%',
     overflow: 'hidden',

@@ -67,7 +67,7 @@ export default function ScannWidget() {
         type: 'image/jpeg',
       });
 
-      const respons = await axios.post('http://10.0.2.2:8000/' + 'predict', formData, 
+      const respons = await axios.post('http://10.0.2.2:8000/' + 'predict', formData,
         {headers: {
           'Content-Type': 'multipart/form-data',
         }
@@ -135,7 +135,7 @@ export default function ScannWidget() {
     <View style={styles.scannWidget} /*onLayout={onLayoutRootView}*/>
       <ImageBackground
         blurRadius={3}
-        source={require('../images/background_scann.jpeg')}
+        source={require('../../images/background_scann.jpeg')}
         style={styles.backgroundScann}
       >
         <PagerView
@@ -154,7 +154,7 @@ export default function ScannWidget() {
             style={styles.btnStyle}
           >
             <Image
-              source={require('../images/camera.png')}
+              source={require('../../images/camera.png')}
               style={styles.imageIcon}
             />
           </TouchableOpacity>
@@ -165,7 +165,7 @@ export default function ScannWidget() {
             style={styles.btnStyle}
           >
             <Image
-              source={require('../images/gallery.png')}
+              source={require('../../images/gallery.png')}
               style={styles.imageIcon}
             />
           </TouchableOpacity>
@@ -184,7 +184,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 
-  backgroundScann: { 
+  backgroundScann: {
     height: '100%',
     width: '100%',
     opacity: .9,
