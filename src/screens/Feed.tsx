@@ -6,14 +6,14 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import Weather from '../components/WeatherWidget'
 import Diagnostic from './Diagnostic'
-import Store from './Store'
+import Store from '../pages/Store/Index'
 import Product from './Product'
 
 const Stack = createNativeStackNavigator();
 
 export default function Feed() {
-  const [expanded, setExpanded] = useState(false); 
-  
+  const [expanded, setExpanded] = useState(false);
+
   const handleChildData = (data) => {
     setExpanded(data)
   };
@@ -21,7 +21,7 @@ export default function Feed() {
   return (
     <NavigationContainer independent={true}>
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name= 'Home' component={Weather} /> 
+      <Stack.Screen name= 'Home' component={Weather} />
 
       <Stack.Screen
         name='Diagnostic'
@@ -38,11 +38,11 @@ export default function Feed() {
         })}*/
       />
 
-      <Stack.Screen name= 'Store' component={Store} /> 
+      <Stack.Screen name= 'Store' component={Store} />
 
-      <Stack.Screen name= 'Product' component={Product} /> 
+      <Stack.Screen name= 'Product' component={Product} />
     </Stack.Navigator>
-    
+
     </NavigationContainer>
   );
 }

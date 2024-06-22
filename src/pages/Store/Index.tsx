@@ -1,91 +1,54 @@
-import React, { useState, useRef } from 'react';
-import Ionicons from '@expo/vector-icons/Ionicons';
+import React, { useState, useEffect, useRef } from 'react';
+import { ScrollView, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import {
-  TextInput,
-  TouchableOpacity,
-  ScrollView,
-  View,
-  Text
-} from 'react-native';
 
-import { styles } from './Style';
+import api from '../../Services/api';
 
+import { SearchBar } from './SearchBar/Index';
+import { ProductItem } from './ProductItem/Index';
 
+import { styles } from './Styles';
 
-export default function Store() {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const pagerRef = useRef(null);
+const Store = () => {
   const [searchQuery, setSearchQuery] = useState('');
-  const [searchResults, setSearchResults] = useState([]);
-
+  const [products, setProducts] = useState([]);
   const navigation = useNavigation();
+  const pagerRef = useRef(null);
+
+  useEffect(() => {
+    searchData('');
+  }, [])
 
   const openProduct = () => {
-    navigation.navigate('Product')
+    navigation.navigate('Product');
   };
 
-  const searchData = (text) => {
+  const searchData = async (text: React.SetStateAction<string>) => {
     setSearchQuery(text);
-    const results = ['Apple', 'Banana', 'Orange', 'Pineapple', 'Grapes'];
 
-    // Filtrando os resultados com base na query de pesquisa
-    const filteredResults = results.filter(item =>
-      item.toLowerCase().includes(text.toLowerCase())
-    );
-
-    setSearchResults(filteredResults);
+    try {
+      const response = await api.get('produtos', {
+        params: { page: 1, limit: 100, name: searchQuery },
+        headers: { Authorization: api.defaults.headers['Authorization'] }
+      });
+      setProducts(response.data);
+    } catch (error) {
+      console.error('Error fetching products:', error);
+    }
   };
-
-  // Array de produtos simulados
-  const products = [
-    { type: 'Fungicida', name: 'Azoxistrobina 18,2% + difenoconazol 11,4% SC- AZOZOL', supplier: 'katyayani' },
-    { type: 'Fungicida', name: 'Ridomil Gold Bravo 1 Litro', supplier: 'Comprar Defensivos' },
-    { type: 'Fungicida', name: 'Ridomil Gold Bravo 1 Litro', supplier: 'Comprar Defensivos' },
-  ];
 
   return (
     <View style={styles.container}>
-      <View style={styles.search}>
-        <TextInput
-          placeholder="Pesquisar..."
-          value={searchQuery}
-          onChangeText={searchData}
-          style={styles.searchImput}
-        />
-      </View>
-
+      <SearchBar searchQuery={searchQuery} onSearch={searchData} />
       <View style={styles.productList}>
         <ScrollView>
           {products.map((product, index) => (
-
-            <View
-              style={styles.product}
-              key={index}
-            >
-            <TouchableOpacity style={styles.productButton} onPress={() => openProduct()}>
-              <Ionicons name="color-fill" style={styles.icon} size={32} />
-
-              <View style={styles.containerProduct}>
-                <Text style={styles.productType}>{product.type}</Text>
-                <Text
-                  style={styles.productName}
-                  numberOfLines={1}
-                  ellipsizeMode="tail"
-                >
-                  {product.name}
-                </Text>
-                <Text style={styles.productSupplier}>{product.supplier}</Text>
-              </View>
-
-              <TouchableOpacity style={styles.btn}>
-                <Ionicons name="arrow-forward-outline" style={styles.btnStyle} size={32} />
-              </TouchableOpacity>
-            </TouchableOpacity>
-            </View>
+            <ProductItem key={index} product={product} onPress={openProduct} />
           ))}
         </ScrollView>
       </View>
     </View>
   );
 };
+
+export default Store;

@@ -2,7 +2,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Feather } from '@expo/vector-icons';
 
 import Feed from '../screens/Feed';
-import Store from '../screens/Store';
+import Store from '../pages/Store/Index';
 
 const Tab = createBottomTabNavigator();
 
