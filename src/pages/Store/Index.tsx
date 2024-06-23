@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { ScrollView, View } from 'react-native';
+import { ActivityIndicator, ScrollView, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+
+import * as Animatable from 'react-native-animatable';
 
 import api from '../../Services/api';
 
@@ -10,6 +12,7 @@ import { ProductItem } from './ProductItem/Index';
 import { styles } from './Styles';
 
 const Store = () => {
+  const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
   const [products, setProducts] = useState([]);
   const navigation = useNavigation();
@@ -19,8 +22,16 @@ const Store = () => {
     searchData('');
   }, [])
 
-  const openProduct = () => {
-    navigation.navigate('Product');
+  interface Product {
+    id: number;
+    idFornecedor: number;
+  }
+
+  const openProduct = (product: Product) => {
+    navigation.navigate('Product', {
+      idProduto: product.id,
+      idFornecedor: product.fornecedorID,
+    });
   };
 
   const searchData = async (text: React.SetStateAction<string>) => {
@@ -34,20 +45,37 @@ const Store = () => {
       setProducts(response.data);
     } catch (error) {
       console.error('Error fetching products:', error);
+    } finally {
+      setLoading(false);
     }
   };
 
+  if (loading) {
+    return (
+      <View
+        style={{
+          flex: 1,
+          justifyContent: 'center',
+          alignItems: 'center',
+          backgroundColor: '#fff'
+        }}
+      >
+        <ActivityIndicator size={"large"} color={"#131313"}/>
+      </View>
+    );
+  }
+
   return (
-    <View style={styles.container}>
+    <Animatable.View animation={"fadeInRight"} style={styles.container}>
       <SearchBar searchQuery={searchQuery} onSearch={searchData} />
       <View style={styles.productList}>
         <ScrollView>
           {products.map((product, index) => (
-            <ProductItem key={index} product={product} onPress={openProduct} />
+            <ProductItem key={index} product={product} onPress={() => openProduct(product)} />
           ))}
         </ScrollView>
       </View>
-    </View>
+    </Animatable.View>
   );
 };
 

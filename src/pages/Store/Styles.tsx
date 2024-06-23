@@ -10,6 +10,7 @@ export const styles = StyleSheet.create({
     marginTop: 20,
     textAlign: 'left',
     alignItems: 'flex-start',
+    paddingBottom: 15,
   },
   container: {
     flex: 1,

@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { Platform, ActivityIndicator, TextInput } from 'react-native';
+import { TextInput } from 'react-native';
 
 import { useNavigation } from '@react-navigation/native';
 

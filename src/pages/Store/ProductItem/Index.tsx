@@ -9,7 +9,7 @@ export const ProductItem = ({ product, onPress }) => (
     <TouchableOpacity style={styles.productButton} onPress={onPress}>
       <Ionicons name="color-fill" style={styles.icon} size={32} />
       <View style={styles.containerProduct}>
-        <Text style={styles.productType}>{product.type}</Text>
+        <Text style={styles.productType}>{product.tipoProduto}</Text>
         <Text style={styles.productName} numberOfLines={1} ellipsizeMode="tail">
           {product.nomeProduto}
         </Text>

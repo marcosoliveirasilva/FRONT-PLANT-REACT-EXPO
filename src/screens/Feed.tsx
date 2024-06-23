@@ -4,10 +4,10 @@ import { Button, StyleSheet } from 'react-native'
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import Weather from '../components/WeatherWidget'
-import Diagnostic from './Diagnostic'
-import Store from '../pages/Store/Index'
-import Product from './Product'
+import Weather from '../components/WeatherWidget';
+import Diagnostic from './Diagnostic';
+import Store from '../pages/Store/Index';
+import Product from '../pages/Product/Index';
 
 const Stack = createNativeStackNavigator();
 
