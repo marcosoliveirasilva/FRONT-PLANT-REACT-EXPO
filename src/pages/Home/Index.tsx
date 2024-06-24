@@ -5,7 +5,7 @@ import { AuthContext } from '../../contexts/auth';
 import WeatherWidget from './WeatherWidget/Index';
 import WidgetMap from './WidgetMap/Index';
 import FeedWidget from './FeedWidget/Index';
-import ScannWidget from '../../components/ScannWidget';
+import ScannWidget from './ScannWidget/Index';
 
 const Home = () => {
   const { user } = useContext(AuthContext);
