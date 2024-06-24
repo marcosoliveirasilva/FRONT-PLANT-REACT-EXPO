@@ -1,6 +1,6 @@
 import React, { createContext, useState, useEffect } from 'react';
 
-import api from '../Services/api';
+import { api } from '../Services/api';
 import { useNavigation } from '@react-navigation/native';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';

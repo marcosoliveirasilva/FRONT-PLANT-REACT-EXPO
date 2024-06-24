@@ -4,7 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 
 import * as Animatable from 'react-native-animatable';
 
-import api from '../../Services/api';
+import { api } from '../../Services/api';
 
 import { SearchBar } from './SearchBar/Index';
 import { ProductItem } from './ProductItem/Index';

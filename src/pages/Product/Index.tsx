@@ -10,7 +10,7 @@ import ItemDescription from './ItemDescription/Index';
 import SupplierDetails from './SupplierDetails/Index';
 import ExpandableMap from './ExpandableMap/Index';
 
-import api from '../../Services/api';
+import { api } from '../../Services/api';
 
 import { styles } from './Styles';
 

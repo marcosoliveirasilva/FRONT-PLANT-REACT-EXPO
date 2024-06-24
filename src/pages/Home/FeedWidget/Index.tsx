@@ -1,8 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { View, Text, StyleSheet, ImageBackground } from 'react-native';
+import { View, Text, ImageBackground } from 'react-native';
 import PagerView from 'react-native-pager-view';
 
-export default function FeedWidget() {
+import { styles } from './Styles';
+
+const FeedWidget = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const pagerRef = useRef(null);
 
@@ -11,7 +13,7 @@ export default function FeedWidget() {
       let nextIndex = currentIndex === carouselItems.length - 1 ? 0 : currentIndex + 1;
       setCurrentIndex(nextIndex);
       pagerRef.current.setPage(nextIndex);
-    }, 10000); // Troca a cada 3 segundos
+    }, 10000);
 
     return () => clearInterval(timer);
   }, [currentIndex]);
@@ -42,7 +44,7 @@ export default function FeedWidget() {
     <View style={styles.feedWidget}>
       <ImageBackground
         blurRadius={3}
-        source={require('../../images/background_feed.jpeg')}
+        source={require('../../../assets/background_feed.jpeg')}
         style={styles.backgroundFeed}
       >
         <PagerView
@@ -58,50 +60,4 @@ export default function FeedWidget() {
   );
 };
 
-const styles = StyleSheet.create({
-  feedWidget: {
-    marginTop: 25,
-    borderRadius: 15,
-    width: 370,
-    height: 200,
-    alignItems: 'center',
-    justifyContent:'center',
-    overflow: 'hidden',
-  },
-
-  backgroundFeed: {
-    height: '100%',
-    width: '100%',
-    opacity: .9,
-    overflow: 'hidden',
-    borderRadius: 15,
-    borderColor: 'rgba(107, 142, 35, 0.4)',
-    borderWidth: 2,
-    borderStyle: 'solid',
-  },
-
-  pagerView: {
-    flex: 1,
-  },
-
-  carouselItem: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 5,
-    backgroundColor: 'rgba(76, 175, 80, 0.05)',
-  },
-
-  itemTitle: {
-    fontSize: 24,
-    fontWeight: 'bold',
-
-    height: 50,
-  },
-
-  itemInfo: {
-    fontSize: 20,
-    textAlign: 'justify',
-    fontWeight: '500',
-    height: 100,
-  },
-});
+export default FeedWidget;

@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
-import { Button, StyleSheet } from 'react-native'
+import { StyleSheet } from 'react-native'
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import Weather from '../components/WeatherWidget';
+import Home from '../pages/Home/Index';
 import Diagnostic from './Diagnostic';
 import Store from '../pages/Store/Index';
 import Product from '../pages/Product/Index';
@@ -21,21 +21,11 @@ export default function Feed() {
   return (
     <NavigationContainer independent={true}>
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name= 'Home' component={Weather} />
+      <Stack.Screen name= 'Home' component={Home} />
 
       <Stack.Screen
         name='Diagnostic'
         component={Diagnostic}
-        /*options={({ navigation }) => ({
-          headerShown: true,
-          headerLeft: () => (
-            <Button
-              onPress={() => navigation.goBack()}
-              title="Back"
-              color="#000"
-            />
-          ),
-        })}*/
       />
 
       <Stack.Screen name= 'Store' component={Store} />

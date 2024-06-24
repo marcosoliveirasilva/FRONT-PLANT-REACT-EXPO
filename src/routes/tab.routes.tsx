@@ -25,18 +25,18 @@ export default function TabRoutes() {
       screenOptions={{ headerShown: false }}
     >
       <Tab.Screen
-        name="StoreStack"
-        component={StoreStack}
-        options={{
-          tabBarIcon: ({ color, size }) => <Ionicons name="storefront" size={size} color={color} />,
-          tabBarLabel: () => null,
-        }}
-      />
-      <Tab.Screen
         name="Feed"
         component={Feed}
         options={{
           tabBarIcon: ({ color, size }) => <Ionicons name='home' color={color} size={size} />,
+          tabBarLabel: () => null,
+        }}
+      />
+      <Tab.Screen
+        name="StoreStack"
+        component={StoreStack}
+        options={{
+          tabBarIcon: ({ color, size }) => <Ionicons name="storefront" size={size} color={color} />,
           tabBarLabel: () => null,
         }}
       />

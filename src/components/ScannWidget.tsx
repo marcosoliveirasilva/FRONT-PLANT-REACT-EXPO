@@ -1,14 +1,14 @@
-import React, { useCallback, useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { View, Text, StyleSheet, Dimensions, TouchableOpacity, Image, ImageBackground } from 'react-native';
 import PagerView from 'react-native-pager-view';
 
 import * as ImagePicker from 'expo-image-picker';
-import axios from 'axios';
 
-import { useFonts, Jost_400Regular} from '@expo-google-fonts/jost'
 import * as SplashScreen from 'expo-splash-screen'
 
 import { useNavigation } from '@react-navigation/native';
+
+import { api } from '../Services/api';
 
 // Mantenha a tela inicial visível enquanto buscamos recursos
 SplashScreen.preventAutoHideAsync();
@@ -18,8 +18,6 @@ const { width: screenWidth } = Dimensions.get('window');
 export default function ScannWidget() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const pagerRef = useRef(null);
-
-  const [ fontsLoaded ] = useFonts({ Jost_400Regular })
 
   const [result, setResult] = useState('');
   const [label, setLabel] = useState('');
@@ -34,12 +32,6 @@ export default function ScannWidget() {
       openLibrary();
     }
   };
-
-  const onLayoutRootView = useCallback(async () => {
-    if(!fontsLoaded){
-        await SplashScreen.hideAsync();
-    }
-  }, [fontsLoaded]);
 
   const getResult = async (path: string, response: ImagePicker.ImagePickerResult) => {
     setImage(response.assets[0].uri);
@@ -67,13 +59,15 @@ export default function ScannWidget() {
         type: 'image/jpeg',
       });
 
-      const respons = await axios.post('http://10.0.2.2:8000/' + 'predict', formData,
+      const responsePredict = await api.post('predizerScanns', formData,
         {headers: {
           'Content-Type': 'multipart/form-data',
-        }
-      });
+        }}
+      );
 
-      return respons.data;
+      console.log(responsePredict.data)
+
+      return responsePredict.data;
     } catch (error) {
       console.log('Error:', error);
       setLabel('Failed to predict.');
@@ -112,7 +106,7 @@ export default function ScannWidget() {
       let nextIndex = currentIndex === carouselItems.length - 1 ? 0 : currentIndex + 1;
       setCurrentIndex(nextIndex);
       pagerRef.current.setPage(nextIndex);
-    }, 5000); // Troca a cada 3 segundos
+    }, 5000);
 
     return () => clearInterval(timer);
   }, [currentIndex]);
@@ -213,7 +207,6 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: '500',
     color: 'white',
-    //fontFamily: 'Jost_400Regular',
     textAlign: 'center',
   },
 
