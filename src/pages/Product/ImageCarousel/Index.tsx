@@ -20,7 +20,7 @@ const ImageCarousel = ({ images }) => {
 
   const renderItem = (item, index) => (
     <View style={styles.carouselItem} key={index}>
-      <ImageBackground source={item.image} style={styles.backgroundFeed} />
+      <ImageBackground source={{ uri: item.image }} style={styles.backgroundFeed} imageStyle={styles.imageStyle} />
     </View>
   );
 

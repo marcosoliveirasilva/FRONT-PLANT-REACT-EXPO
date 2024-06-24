@@ -20,22 +20,18 @@ const Product = () => {
   const [loading, setLoading] = useState(true);
   const [product, setProduct] = useState({});
   const [supplier, setSupplier] = useState({});
+  const [images, setImages] = useState([]);
   const [expanded, setExpanded] = useState(false);
   const animation = useRef(new Animated.Value(0)).current;
   const scrollViewRef = useRef();
 
-  const images = [
-    { image: require('../../../images/plant_desease/cereja_oidio/01.jpeg') },
-    { image: require('../../../images/plant_desease/cereja_oidio/02.jpeg') },
-    { image: require('../../../images/plant_desease/cereja_oidio/03.jpeg') },
-  ];
-
   useEffect(() => {
     fetchProductData(idProduto);
     fetchSupplierData(idFornecedor);
+    fetchProductImage(idProduto);
   }, [idProduto, idFornecedor]);
 
-  const fetchProductData = useCallback(async (idProduto) => {
+  const fetchProductData = useCallback(async (idProduto: number) => {
     try {
       const response = await api.get(`produtos/${idProduto}`, {
         headers: { Authorization: api.defaults.headers['Authorization'] }
@@ -48,7 +44,7 @@ const Product = () => {
     }
   }, []);
 
-  const fetchSupplierData = useCallback(async (idFornecedor) => {
+  const fetchSupplierData = useCallback(async (idFornecedor: number) => {
     try {
       const response = await api.get(`fornecedores/${idFornecedor}`, {
         headers: { Authorization: api.defaults.headers['Authorization'] }
@@ -58,6 +54,20 @@ const Product = () => {
       console.error('Error fetching supplier:', error);
     }
   }, []);
+
+  const fetchProductImage = useCallback(async (idProduto: number) => {
+    try {
+      const response = await api.get(`imgProdutos`, {
+        params: { page: 1, limit: 100, produtoID: idProduto },
+        headers: { Authorization: api.defaults.headers['Authorization'] }
+      });
+
+      const imageObjects = response.data.map(item => ({ image: item.url }));
+      setImages(imageObjects);
+    } catch (error) {
+      console.error('Error fetching images:', error);
+    }
+  }, [idFornecedor]);
 
   const toggleExpand = () => {
     const newValue = !expanded;

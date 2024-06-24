@@ -18,6 +18,9 @@ export const styles = StyleSheet.create({
     borderColor: 'rgba(107, 142, 35, 0.4)',
     borderWidth: 2,
   },
+  imageStyle: {
+    resizeMode: 'contain',
+  },
   pagerView: {
     flex: 1,
     height: '100%',
