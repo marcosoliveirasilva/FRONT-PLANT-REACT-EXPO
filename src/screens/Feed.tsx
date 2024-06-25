@@ -5,7 +5,8 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import Home from '../pages/Home/Index';
-import Diagnostic from './Diagnostic';
+//import Diagnostic from './Diagnostic';
+import Diagnostic from '../pages/Diagnostic/Index';
 import Store from '../pages/Store/Index';
 import Product from '../pages/Product/Index';
 

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { View, Text, TouchableOpacity, Image, ImageBackground } from 'react-native';
+import { View, Text, TouchableOpacity, Image, ImageBackground, ActivityIndicator } from 'react-native';
 import PagerView from 'react-native-pager-view';
 import * as ImagePicker from 'expo-image-picker';
 import { useNavigation } from '@react-navigation/native';
@@ -11,6 +11,7 @@ const ScannWidget = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const pagerRef = useRef(null);
   const navigation = useNavigation();
+  const [loading, setLoading] = useState(false);
 
   const manageCamera = async (type: string) => {
     const options = {
@@ -29,6 +30,7 @@ const ScannWidget = () => {
   };
 
   const getResult = async (response: ImagePicker.ImagePickerResult) => {
+    setLoading(true);
     try {
       const formData = new FormData();
       formData.append('file', {
@@ -41,13 +43,19 @@ const ScannWidget = () => {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
 
-      if (res.data?.class) {
+      setLoading(false);
+      if (res.data) {
         console.log(res.data)
-        navigation.navigate('Diagnostic');
+        navigation.navigate('Diagnostic', {
+            doencaID: res.data.doencaID,
+            plantaID: res.data.plantaID,
+            diagnosticoId: res.data.id,
+          });
       } else {
         console.log('Error: Failed to predict')
       }
     } catch (error) {
+      setLoading(false);
       console.error('Error:', error);
     }
   };
@@ -67,6 +75,21 @@ const ScannWidget = () => {
     { title: 'Obtenha o diagnóstico.' },
     { title: 'Encontre soluções para a doença detectada.' },
   ];
+
+  if (loading) {
+    return (
+      <View
+        style={{
+          flex: 1,
+          justifyContent: 'center',
+          alignItems: 'center',
+          backgroundColor: '#fff'
+        }}
+      >
+        <ActivityIndicator size={"large"} color={"#131313"}/>
+      </View>
+    );
+  }
 
   return (
     <View style={styles.scannWidget}>
