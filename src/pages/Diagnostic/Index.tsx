@@ -51,7 +51,7 @@ export default function Diagnostic() {
   }, [doencaID, diagnosticoId, fetchDiseaseData, fetchDiseaseImage]);
 
   const openStore = () => {
-    navigation.navigate('Store');
+    navigation.navigate('Store', { diagnosticoId: diagnosticoId });
   };
 
   if (loading) {

@@ -45,7 +45,6 @@ const ScannWidget = () => {
 
       setLoading(false);
       if (res.data) {
-        console.log(res.data)
         navigation.navigate('Diagnostic', {
             doencaID: res.data.doencaID,
             plantaID: res.data.plantaID,

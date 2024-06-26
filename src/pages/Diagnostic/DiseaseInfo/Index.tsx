@@ -11,7 +11,7 @@ const DiseaseInfo = ({ disease }) => (
     </ScrollView>
     <View style={styles.fonte}>
       <Text style={styles.itemFonte}>Fonte: </Text>
-      <Text ellipsizeMode="tail" style={[styles.itemFonte, { width: 310 }]}>{disease.fonte}</Text>
+      <Text ellipsizeMode="tail" style={[styles.itemFonte, { color: '#0000FF' }, { width: 310 }]}>{disease.fonte}</Text>
     </View>
   </View>
 );

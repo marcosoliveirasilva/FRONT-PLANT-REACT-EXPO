@@ -6,7 +6,7 @@ import { styles } from './Styles';
 
 const DeseaseCaroucel = ({ images }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const pagerRef = useRef(null);
+  const pagerRef = useRef({});
 
   useEffect(() => {
     const timer = setInterval(() => {

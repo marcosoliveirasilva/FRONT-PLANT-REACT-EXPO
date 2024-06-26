@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { ActivityIndicator, ScrollView, View } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 
 import * as Animatable from 'react-native-animatable';
 
@@ -12,6 +12,8 @@ import { ProductItem } from './ProductItem/Index';
 import { styles } from './Styles';
 
 const Store = () => {
+  const route = useRoute();
+  const { diagnosticoId } = route.params;
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
   const [products, setProducts] = useState([]);
@@ -19,7 +21,8 @@ const Store = () => {
   const pagerRef = useRef(null);
 
   useEffect(() => {
-    searchData('');
+    //searchProductsData('');
+    searchProductsDiagnosticsData(diagnosticoId);
   }, [])
 
   interface Product {
@@ -34,7 +37,7 @@ const Store = () => {
     });
   };
 
-  const searchData = async (text: React.SetStateAction<string>) => {
+  const searchProductsData = async (text: React.SetStateAction<string>) => {
     setSearchQuery(text);
 
     try {
@@ -48,6 +51,42 @@ const Store = () => {
     } finally {
       setLoading(false);
     }
+  };
+
+  const searchProductIdData = async (productId: number) => {
+    try {
+      const response = await api.get(`produtos/${productId}`, {
+        params: { page: 1, limit: 100, name: searchQuery },
+        headers: { Authorization: api.defaults.headers['Authorization'] }
+      });
+
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching products:', error);
+    }
+  };
+
+  const searchProductsDiagnosticsData = async (diagnosticID: number) => {
+    if (diagnosticID !== 0) {
+      try {
+        const responseProducts = await api.get('produtosDiagnosticos', {
+          params: { page: 1, limit: 100, diagnosticID: diagnosticID },
+          headers: { Authorization: api.defaults.headers['Authorization'] }
+        });
+
+        let response = responseProducts.data;
+
+        const newArray = await Promise.all(
+          response.map(item => searchProductIdData(item.produtoID))
+        );
+
+        setProducts(newArray);
+      } catch (error) {
+        console.error('Error fetching products:', error);
+      } finally {
+        setLoading(false);
+      }
+    } else { searchProductsData('') }
   };
 
   if (loading) {
@@ -67,7 +106,7 @@ const Store = () => {
 
   return (
     <Animatable.View animation={"fadeInRight"} style={styles.container}>
-      <SearchBar searchQuery={searchQuery} onSearch={searchData} />
+      <SearchBar searchQuery={searchQuery} onSearch={searchProductsData} />
       <View style={styles.productList}>
         <ScrollView>
           {products.map((product, index) => (
