@@ -27,7 +27,7 @@ function StoreStack() {
 function Feed() {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name= 'Home' component={Home} />
+      <Stack.Screen name= 'Home' component={Home} initialParams={{ logout: false }} />
       <Stack.Screen name='Diagnostic' component={Diagnostic} />
       <Stack.Screen name= 'Store' component={Store} />
       <Stack.Screen name= 'Product' component={Product} />
