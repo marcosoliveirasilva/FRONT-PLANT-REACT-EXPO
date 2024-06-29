@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, ScrollView, StyleSheet } from 'react-native';
+import { View, Text, ScrollView } from 'react-native';
 
 import { styles } from './Styles';
 
@@ -11,7 +11,13 @@ const DiseaseInfo = ({ disease }) => (
     </ScrollView>
     <View style={styles.fonte}>
       <Text style={styles.itemFonte}>Fonte: </Text>
-      <Text ellipsizeMode="tail" style={[styles.itemFonte, { color: '#0000FF' }, { width: 310 }]}>{disease.fonte}</Text>
+      <Text
+        numberOfLines={1}
+        ellipsizeMode="tail"
+        style={[styles.itemFonte, { color: '#0000FF' }, { width: 310 }]}
+      >
+        {disease.fonte}
+      </Text>
     </View>
   </View>
 );

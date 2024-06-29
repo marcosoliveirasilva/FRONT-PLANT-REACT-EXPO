@@ -1,22 +1,28 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import { View, ImageBackground } from 'react-native';
 import PagerView from 'react-native-pager-view';
 
 import { styles } from './Styles';
+import { useFocusEffect } from '@react-navigation/native';
 
 const DeseaseCaroucel = ({ images }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const pagerRef = useRef({});
+  const pagerRef = useRef(null);
 
-  useEffect(() => {
-    const timer = setInterval(() => {
-      let nextIndex = currentIndex === images.length - 1 ? 0 : currentIndex + 1;
-      setCurrentIndex(nextIndex);
-      pagerRef.current.setPage(nextIndex);
-    }, 3000);
+  useFocusEffect(
+    useCallback(() => {
+      const timer = setInterval(() => {
+        let nextIndex = currentIndex === images.length - 1 ? 0 : currentIndex + 1;
+        setCurrentIndex(nextIndex);
 
-    return () => clearInterval(timer);
-  }, [currentIndex, images.length]);
+        if (pagerRef.current) {
+          pagerRef.current.setPage(nextIndex);
+        }
+      }, 3000);
+
+      return () => clearInterval(timer);
+    }, [currentIndex, images.length])
+  );
 
 
   return (

@@ -1,7 +1,7 @@
 import { useCallback, useContext } from 'react';
 import { Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { Feather } from '@expo/vector-icons';
+import { Feather, MaterialIcons } from '@expo/vector-icons';
 import {
   DrawerContentScrollView,
   DrawerItem,
@@ -10,7 +10,7 @@ import {
 } from '@react-navigation/drawer';
 
 import TabRoutes from './tab.routes';
-import StackRoutes from './stack.routes';
+import { ProfileNavigator, HistoricNavigator } from './stack.routes';
 import { AuthContext } from '../contexts/auth';
 
 const Drawer = createDrawerNavigator();
@@ -68,8 +68,16 @@ export default function DrawerRoutes() {
         }}
       />
       <Drawer.Screen
+        name="historic"
+        component={HistoricNavigator}
+        options={{
+          drawerIcon: ({ color, size }) => <MaterialIcons name='history' color={color} size={size} />,
+          drawerLabel: 'Histórico de Diagnósticos',
+        }}
+      />
+      <Drawer.Screen
         name="profile"
-        component={StackRoutes}
+        component={ProfileNavigator}
         options={{
           drawerIcon: ({ color, size }) => <Feather name='user' color={color} size={size} />,
           drawerLabel: 'Meu Perfil',

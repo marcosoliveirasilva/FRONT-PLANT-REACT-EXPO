@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useCallback } from 'react';
 import { View, Text } from 'react-native';
-import { useNavigation, useRoute } from '@react-navigation/native';
+import { useFocusEffect, useNavigation, useRoute } from '@react-navigation/native';
 import { api } from '../../Services/api';
 import LoadingScreen from './LoadingScreen/Index';
 import DiseaseInfo from './DiseaseInfo/Index';
@@ -19,7 +19,7 @@ export default function Diagnostic() {
   const [images, setImages] = useState([]);
   const navigation = useNavigation();
 
-  const fetchDiseaseData = useCallback(async (idDoenca) => {
+  const fetchDiseaseData = useCallback(async (idDoenca: number) => {
     try {
       const response = await api.get(`doencas/${idDoenca}`, {
         headers: { Authorization: api.defaults.headers['Authorization'] },
@@ -30,13 +30,14 @@ export default function Diagnostic() {
     }
   }, []);
 
-  const fetchDiseaseImage = useCallback(async (idDiagnostico) => {
+  const fetchDiseaseImage = useCallback(async (idDiagnostico: number) => {
     try {
       const response = await api.get('imgDiagnosticos', {
         params: { page: 1, limit: 3, diagnosticoID: idDiagnostico },
         headers: { Authorization: api.defaults.headers['Authorization'] },
       });
-      const imageObjects = response.data.map((item) => ({ image: item.url }));
+
+      const imageObjects = response.data.map((item: { url: string; }) => ({ image: item.url }));
       setImages(imageObjects);
     } catch (error) {
       console.error('Error fetching images:', error);
@@ -45,10 +46,13 @@ export default function Diagnostic() {
     }
   }, []);
 
-  useEffect(() => {
-    fetchDiseaseImage(diagnosticoId);
-    fetchDiseaseData(doencaID);
-  }, [doencaID, diagnosticoId, fetchDiseaseData, fetchDiseaseImage]);
+  useFocusEffect(
+    useCallback(() => {
+      console.log('aqui')
+      fetchDiseaseImage(diagnosticoId);
+      fetchDiseaseData(doencaID);
+    }, [doencaID, diagnosticoId, fetchDiseaseData, fetchDiseaseImage])
+  );
 
   const openStore = () => {
     navigation.navigate('Store', { diagnosticoId: diagnosticoId });

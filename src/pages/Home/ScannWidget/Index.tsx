@@ -46,10 +46,10 @@ const ScannWidget = () => {
       setLoading(false);
       if (res.data) {
         navigation.navigate('Diagnostic', {
-            doencaID: res.data.doencaID,
-            plantaID: res.data.plantaID,
-            diagnosticoId: res.data.id,
-          });
+          doencaID: res.data.doencaID,
+          plantaID: res.data.plantaID,
+          diagnosticoId: res.data.id
+        });
       } else {
         console.log('Error: Failed to predict')
       }
@@ -63,7 +63,9 @@ const ScannWidget = () => {
     const timer = setInterval(() => {
       const nextIndex = currentIndex === carouselItems.length - 1 ? 0 : currentIndex + 1;
       setCurrentIndex(nextIndex);
-      pagerRef.current.setPage(nextIndex);
+      if (pagerRef.current) {
+        pagerRef.current.setPage(nextIndex);
+      }
     }, 5000);
 
     return () => clearInterval(timer);
