@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { View } from 'react-native';
+import { TouchableOpacity, View } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 
 import { styles } from './Styles';
+import { useNavigation } from '@react-navigation/native';
 
 const WidgetMap = ({ latitude, longitude }) => {
   const [locationCoords, setLocationCoords] = useState({'latitude': parseFloat(latitude),'longitude': parseFloat(longitude)});
   const [errorMsg, setErrorMsg] = useState(null);
+  const navigation = useNavigation();
 
   useEffect(() => {
     if (typeof latitude === 'undefined' || typeof longitude === 'undefined') {
@@ -17,27 +19,36 @@ const WidgetMap = ({ latitude, longitude }) => {
     }
   }, [latitude, longitude]);
 
+  const openMap = () => {
+    navigation.navigate('Map', {
+      latitude: latitude,
+      longitude: longitude
+    });
+  };
+
   return (
     <View style={styles.mapWidget}>
       {errorMsg ? (
-            <Text style={styles.errorText}>{errorMsg}</Text>
+            <Text >{errorMsg}</Text>
           ) : (
-      <MapView
-        style={styles.map}
-        initialRegion={{
-          latitude: locationCoords.latitude,
-          longitude: locationCoords.longitude,
-          latitudeDelta: 0.005,
-          longitudeDelta: 0.005,
-        }}
-      >
-        <Marker
-          coordinate={{
+      <TouchableOpacity style={styles.mapWidgetButton} onPress={() => openMap()}>
+        <MapView
+          style={styles.map}
+          initialRegion={{
             latitude: locationCoords.latitude,
             longitude: locationCoords.longitude,
+            latitudeDelta: 0.02,
+            longitudeDelta: 0.02,
           }}
-        />
-      </MapView>
+        >
+          <Marker
+            coordinate={{
+              latitude: locationCoords.latitude,
+              longitude: locationCoords.longitude,
+            }}
+          />
+        </MapView>
+      </TouchableOpacity>
       )}
     </View>
   );

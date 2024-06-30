@@ -48,7 +48,6 @@ export default function Diagnostic() {
 
   useFocusEffect(
     useCallback(() => {
-      console.log('aqui')
       fetchDiseaseImage(diagnosticoId);
       fetchDiseaseData(doencaID);
     }, [doencaID, diagnosticoId, fetchDiseaseData, fetchDiseaseImage])

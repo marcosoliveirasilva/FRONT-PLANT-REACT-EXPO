@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { View, Text, TouchableOpacity, Animated, Image, ActivityIndicator } from 'react-native';
+import { View, Text, TouchableOpacity, Animated, Image } from 'react-native';
 import { api, apiWeather } from '../../../Services/api';
 
 import { styles } from './Styles';
 
-export const useWeather = (latitude, longitude) => {
+export const useWeather = (latitude: string, longitude: string) => {
   const [weatherData, setWeatherData] = useState({});
 
   useEffect(() => {
@@ -106,7 +106,7 @@ const WeatherWidget = ({ latitude, longitude }) => {
             style={styles.weatherIcon}
           />
           <Text style={styles.temperatureText}>{currentTemperature}</Text>
-          <Text style={[styles.temperatureText, { fontSize: 14 }]}>°C</Text>
+          <Text style={styles.temperatureTextCelcius}>°C</Text>
         </View>
       </TouchableOpacity>
 

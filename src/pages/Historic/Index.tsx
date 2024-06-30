@@ -5,7 +5,6 @@ import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import * as Animatable from 'react-native-animatable';
 
 import { api } from '../../Services/api';
-
 import { ProductItem } from './HistoricItem/Index';
 
 import { styles } from './Styles';
@@ -23,17 +22,9 @@ const Historic = () => {
   );
 
   interface Historic {
-    id: number;
-    usuarioID: number;
-    diagnosticoID: number;
-    plantaID: number;
-    nomePlanta: string;
-    nomeCientificoPlanta: string;
     doencaID: number;
-    nomeDoenca: string;
-    nomeCientificoDoenca: string;
-    latitude: string;
-    longitude: string;
+    plantaID: number;
+    diagnosticoID: number;
   }
 
   const openDiagnostic = (historic: Historic) => {

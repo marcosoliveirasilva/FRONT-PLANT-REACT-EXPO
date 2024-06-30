@@ -1,25 +1,19 @@
 import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#ffffff',
+    alignItems: 'center',
+  },
   mapWidget: {
     borderColor: 'rgba(107, 142, 35, 0.4)',
     borderWidth: 2,
     borderStyle: 'solid',
-    marginTop: 25,
+    marginTop: 15,
     borderRadius: 15,
     width: 370,
-    height: 200,
-    alignItems: 'center',
-    justifyContent:'center',
-    overflow: 'hidden'
-  },
-  mapWidgetButton: {
-    borderColor: 'rgba(107, 142, 35, 0.4)',
-    borderWidth: 2,
-    borderStyle: 'solid',
-    borderRadius: 15,
-    width: 370,
-    height: 200,
+    height: 730,
     alignItems: 'center',
     justifyContent:'center',
     overflow: 'hidden'

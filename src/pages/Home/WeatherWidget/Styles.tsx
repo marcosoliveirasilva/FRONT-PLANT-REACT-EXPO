@@ -1,6 +1,11 @@
 import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
+  feed: {
+    flex: 1,
+    backgroundColor: '#ffffff',
+    alignItems: 'center',
+  },
   weatherWidget: {
     backgroundColor: 'rgba(76, 175, 80, 0.1)',
     borderColor: 'rgba(107, 142, 35, 0.4)',
@@ -13,7 +18,7 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    height: 100
+    height: 70
   },
   contentWeatherWidget: {
     backgroundColor: 'rgba(76, 175, 80, 0.1)',
@@ -24,7 +29,7 @@ export const styles = StyleSheet.create({
     width: 370,
     marginTop: 10,
     padding: 10,
-    borderRadius: 5,
+    borderRadius: 10,
     alignItems: 'center',
   },
   infoText: {
@@ -53,34 +58,20 @@ export const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
   },
+  temperatureContainer: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    marginRight: 10,
+  },
   weatherIcon: {
     width: 75,
     height: 75,
-    marginRight: 10,
-  },
-  temperatureContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'flex-end',
-    marginRight: 10,
   },
   temperatureText: {
     fontSize: 50,
   },
-  feed: {
-    flex: 1,
-    backgroundColor: '#ffffff',
-    alignItems: 'center',
+  temperatureTextCelcius: {
+    marginTop: 20,
+    fontSize: 14
   },
-  container: {
-    flex: 1,
-    backgroundColor: '#ffffff',
-    alignItems: 'center',
-  },
-  loadingContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#fff',
-  }
 });
