@@ -1,86 +1,73 @@
-import { useFocusEffect, useRoute } from '@react-navigation/native';
-import MapView, { Marker } from 'react-native-maps';
 import React, { useState, useEffect, useCallback } from 'react';
-import { Dimensions, View } from 'react-native';
-
+import { useFocusEffect, useRoute } from '@react-navigation/native';
+import {  View } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 
+import { fetchDeseasesData, fetchStoresData, fetchDiagnosticsData } from '../../Services/api';
 import LoadingScreen from '../../components/LoadingScreen/Index';
-import CustomMarker from '../../components/CustomMarker/Index';
-import { mapStyle } from '../../Services/map';
-import { api } from '../../Services/api';
+import MapDeseases from './Map/Index';
+import DiagnosticPicker from './DropdownButton/Index';
+import DistanceButton from './Distancebutton/Index';
 import { styles } from './Styles';
 
 const Map = () => {
   const route = useRoute();
   const { latitude, longitude } = route.params;
+  const [diagnostics, setDiagnostics] = useState([{}]);
   const [markersStores, setMarkersStores] = useState([]);
   const [markersDeseases, setMarkersDeseases] = useState([]);
   const [locationCoords, setLocationCoords] = useState({
     'latitude': parseFloat(latitude),
     'longitude': parseFloat(longitude)
   });
+  const [locationCoordsDelta, setLocationCoordsDelta] = useState({
+    'latitude': 0.02,
+    'longitude': 0.02
+  });
   const [errorMsg, setErrorMsg] = useState(null);
-  const { width, height } = Dimensions.get('window');
-  const markerSize = Math.min(width, height) * 0.1;
   const [loading, setLoading] = useState(true);
+  const [loadingPage, setLoadingPage] = useState(true);
+  const [selectedValue, setSelectedValue] = useState("option1");
+  const [distance, setDistance] = useState(10);
+  const [diagnosticId, setDiagnostic] = useState('0');
 
   useFocusEffect(
     useCallback(() => {
       setLoading(true);
+      setLoadingPage(true);
+      searchDiagnosticData();
       searchStoresData();
-      searchDeaseasesData();
+      searchDeseasesData(diagnosticId, distance);
     }, [])
   );
 
-  const searchDeaseasesData = async () => {
+  const searchDeseasesData = async (diagnosticID: string, distance: number) => {
     try {
-      const responseDeseases = await api.get('historicoScanns/Markers', {
-        params: { page: 1, limit: 100, diagnosticID: 0, distance: 400 },
-        headers: { Authorization: api.defaults.headers['Authorization'] }
-      });
-
-      const response = responseDeseases.data.map((item: {
-        latitude: string;
-        longitude: string;
-        nomePlanta: string;
-        nomeDoenca: string;
-      }) => ({
-        latitude: parseFloat(item.latitude),
-        longitude: parseFloat(item.longitude),
-        title: (item.nomePlanta+ ' - ' +item.nomeDoenca),
-        image: require('../../assets/location-marker-warning.png')
-      }));
-
+      const response = await fetchDeseasesData(diagnosticID, distance);
       setMarkersDeseases(response);
     } catch (error) {
-      console.error('Error fetching products:', error);
+      console.error('Error fetching deseases:', error);
     } finally {
       setLoading(false);
+      setLoadingPage(false);
     }
   };
 
   const searchStoresData = async () => {
     try {
-      const responseStores = await api.get('fornecedores', {
-        params: { page: 1, limit: 100 },
-        headers: { Authorization: api.defaults.headers['Authorization'] }
-      });
-
-      const response = responseStores.data.map((item: {
-        latitude: string;
-        longitude: string;
-        nomeEmpresa: string;
-      }) => ({
-        latitude: parseFloat(item.latitude),
-        longitude: parseFloat(item.longitude),
-        title: item.nomeEmpresa,
-        image: require('../../assets/convenience-store-map-2.png')
-      }));
-
+      const response = await fetchStoresData();
       setMarkersStores(response);
     } catch (error) {
-      console.error('Error fetching products:', error);
+      console.error('Error fetching stores:', error);
+    }
+  };
+
+  const searchDiagnosticData = async () => {
+    try {
+      const response = await fetchDiagnosticsData();
+      setDiagnostics(response);
+    } catch (error) {
+      console.error('Error fetching diagnostics:', error);
     }
   };
 
@@ -93,61 +80,49 @@ const Map = () => {
     }
   }, [latitude, longitude]);
 
-  if (loading) {
+  const searchDiagnostic = (id: string) => {
+    setSelectedValue(id);
+    setLoading(true);
+    setDiagnostic(id);
+    searchDeseasesData(id, distance);
+  };
+
+  const searchDistance = (value: number) => {
+    const result = value + distance;
+    if (result > 0) {
+      setLoading(true);
+      setDistance(result);
+      searchDeseasesData(diagnosticId, result);
+    }
+  };
+
+  if (loadingPage) {
     return <LoadingScreen />;
   }
 
   return (
     <Animatable.View animation={"fadeInRight"} style={styles.container}>
-      <View style={styles.mapWidget}>
-        {errorMsg ? (
-              <Text >{errorMsg}</Text>
-            ) : (
-        <MapView
-          style={styles.map}
-          customMapStyle={mapStyle}
-          initialRegion={{
-            latitude: locationCoords.latitude,
-            longitude: locationCoords.longitude,
-            latitudeDelta: 0.02,
-            longitudeDelta: 0.02,
-          }}
-        >
-          <Marker
-            coordinate={{
-              latitude: locationCoords.latitude,
-              longitude: locationCoords.longitude,
-            }}
-            title={'title'}
-            description={'description'}
-          />
-          {markersDeseases.map((marker, index) => (
-            <CustomMarker
-              key={index}
-              coordinate={{
-                latitude: marker.latitude,
-                longitude: marker.longitude,
-              }}
-              title={marker.title}
-              image={marker.image}
-              size={markerSize}
-            />
-          ))}
-          {markersStores.map((marker, index) => (
-            <CustomMarker
-              key={index}
-              coordinate={{
-                latitude: marker.latitude,
-                longitude: marker.longitude,
-              }}
-              title={marker.title}
-              image={marker.image}
-              size={markerSize}
-            />
-          ))}
-        </MapView>
-        )}
+      <View style={styles.containerConfig}>
+        <DiagnosticPicker
+          diagnostics={diagnostics}
+          selectedValue={selectedValue}
+          onValueChange={searchDiagnostic}
+        />
+        <DistanceButton
+          distance={distance}
+          onIncrease={() => searchDistance(1)}
+          onDecrease={() => searchDistance(-1)}
+        />
       </View>
+
+      <MapDeseases
+        heightMap={655}
+        loading={loading}
+        locationCoords={locationCoords}
+        locationCoordsDelta={locationCoordsDelta}
+        markersDeseases={markersDeseases}
+        markersStores={markersStores}
+      />
     </Animatable.View>
   );
 }

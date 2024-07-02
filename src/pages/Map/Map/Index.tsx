@@ -1,50 +1,31 @@
-import React, { useState, useEffect } from 'react';
-import { Dimensions, TouchableOpacity, View } from 'react-native';
+import React from 'react';
+import { Dimensions, View } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 
-import { styles } from './Styles';
-import { useNavigation } from '@react-navigation/native';
-
+import LoadingScreen from '../../../components/LoadingScreen/Index';
 import CustomMarker from '../../../components/CustomMarker/Index';
 import { mapStyle } from '../../../Services/map';
+import { styles } from './Styles';
 
-const WidgetMap = ({ latitude, longitude, markersDeseases, markersStores }) => {
-  const [locationCoords, setLocationCoords] = useState({'latitude': parseFloat(latitude),'longitude': parseFloat(longitude)});
-  const [errorMsg, setErrorMsg] = useState(null);
-  const navigation = useNavigation();
+const MapDeseases = ({
+  heightMap, loading, locationCoords, locationCoordsDelta, markersDeseases, markersStores
+}): React.JSX.Element => {
   const { width, height } = Dimensions.get('window');
   const markerSize = Math.min(width, height) * 0.1;
 
-  useEffect(() => {
-    if (typeof latitude === 'undefined' || typeof longitude === 'undefined') {
-      setErrorMsg('Invalid coordinates');
-    } else {
-      setLocationCoords({ latitude: parseFloat(latitude), longitude: parseFloat(longitude) });
-      setErrorMsg(null);
-    }
-  }, [latitude, longitude]);
-
-  const openMap = () => {
-    navigation.navigate('Map', {
-      latitude: latitude,
-      longitude: longitude
-    });
-  };
-
   return (
-    <View style={styles.mapWidget}>
-      {errorMsg ? (
-            <Text >{errorMsg}</Text>
-          ) : (
-      <TouchableOpacity style={styles.mapWidgetButton} onPress={() => openMap()}>
+    <View style={[{ height: heightMap }, styles.mapWidget]}>
+      {loading ? (
+        <LoadingScreen />
+      ) : (
         <MapView
           style={styles.map}
           customMapStyle={mapStyle}
           initialRegion={{
             latitude: locationCoords.latitude,
             longitude: locationCoords.longitude,
-            latitudeDelta: 0.02,
-            longitudeDelta: 0.02,
+            latitudeDelta:locationCoordsDelta.latitude,
+            longitudeDelta: locationCoordsDelta.longitude,
           }}
         >
           <Marker
@@ -78,10 +59,9 @@ const WidgetMap = ({ latitude, longitude, markersDeseases, markersStores }) => {
             />
           ))}
         </MapView>
-      </TouchableOpacity>
       )}
     </View>
   );
-}
+};
 
-export default WidgetMap;
+export default MapDeseases;
