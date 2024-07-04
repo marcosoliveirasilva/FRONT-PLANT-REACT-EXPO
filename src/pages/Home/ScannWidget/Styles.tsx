@@ -7,7 +7,7 @@ export const styles = StyleSheet.create({
     marginTop: 20,
     borderRadius: 15,
     width: screenWidth - 40,
-    height: 170,
+    height: 190,
     alignItems: 'center',
   },
   backgroundScann: {
@@ -37,7 +37,7 @@ export const styles = StyleSheet.create({
   btnContainer: {
     flexDirection: 'row',
     justifyContent: 'center',
-    padding: 10,
+    padding: 20,
   },
   btnStyle: {
     backgroundColor: 'rgba(107, 142, 35, 0.9)',

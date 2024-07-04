@@ -7,7 +7,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const AuthContext = createContext({});
 
-function AuthProvider({ children }){
+function AuthProvider({ children }): React.JSX.Element{
   const [user, setUser] = useState(null);
   const [loadingAuth, setLoadingAuth] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -40,7 +40,7 @@ function AuthProvider({ children }){
   }, [])
 
 
-  async function signUp(email, password, nome){
+  async function signUp(email: string, password: string, nome: string){
     setLoadingAuth(true);
 
     try{
@@ -52,15 +52,13 @@ function AuthProvider({ children }){
       setLoadingAuth(false);
 
       navigation.goBack();
-
-
     }catch(err){
       console.log("ERRO AO CADASTRAR", err);
       setLoadingAuth(false);
     }
   }
 
-  async function signIn(email, password){
+  async function signIn(email: string, password: string){
     setLoadingAuth(true);
 
     try{
@@ -81,6 +79,40 @@ function AuthProvider({ children }){
     }
   }
 
+  async function updateUser(newUser:{
+    nomeCompleto: string;
+    cpf: string;
+    telefoneCelular: string;
+    telefoneFixo: string;
+    latitude: string;
+    longitude: string;
+  }) {
+    try{
+      const response = await api.put(`pessoas/${user.id}`, newUser, {
+        headers: { Authorization: api.defaults.headers['Authorization'] }
+      });
+
+      setUser({
+        id: user.id,
+        nomeCompleto: newUser.nomeCompleto,
+        cpf: newUser.cpf,
+        telefoneCelular: newUser.telefoneCelular,
+        telefoneFixo: newUser.telefoneFixo,
+        latitude: newUser.latitude,
+        longitude: newUser.longitude,
+      });
+
+      return response;
+    }catch(error){
+      console.log("ERRO AO LOGAR ", error);
+      if (error.response) {
+        console.log("Dados do erro: ", error.response.data.errors.body);
+      }
+
+      return error;
+    }
+  };
+
   async function signOut(){
     await AsyncStorage.clear()
     .then(() => {
@@ -89,7 +121,7 @@ function AuthProvider({ children }){
   }
 
   return(
-    <AuthContext.Provider value={{ signed: !!user, user, signUp, signIn, signOut, loadingAuth, loading }}>
+    <AuthContext.Provider value={{ signed: !!user, user, signUp, signIn, signOut, updateUser, loadingAuth, loading }}>
       {children}
     </AuthContext.Provider>
   )

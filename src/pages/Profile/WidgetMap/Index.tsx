@@ -5,10 +5,10 @@ import MapView, { Marker } from 'react-native-maps';
 import { mapStyle } from '../../../Services/map';
 import { styles } from './Styles';
 
-const WidgetMap = ({ latitude, longitude }) => {
+const WidgetMap = ({ latitude, longitude, onNewLocation }) => {
   const [locationCoords, setLocationCoords] = useState({
-    'latitude': parseFloat(latitude),
-    'longitude': parseFloat(longitude)
+    latitude: parseFloat(latitude),
+    longitude: parseFloat(longitude)
   });
   const [errorMsg, setErrorMsg] = useState(null);
   const { width, height } = Dimensions.get('window');
@@ -23,11 +23,22 @@ const WidgetMap = ({ latitude, longitude }) => {
     }
   }, [latitude, longitude]);
 
+  const handleMapPress = (e: {
+    nativeEvent: {
+      coordinate: { latitude: number; longitude: number; };
+    };
+  }) => {
+    const { latitude, longitude } = e.nativeEvent.coordinate;
+    const newCoords = { latitude, longitude };
+    setLocationCoords(newCoords);
+    onNewLocation(newCoords);
+  };
+
   return (
     <View style={styles.mapWidget}>
       {errorMsg ? (
-            <Text >{errorMsg}</Text>
-          ) : (
+        <Text>{errorMsg}</Text>
+      ) : (
         <MapView
           style={styles.map}
           customMapStyle={mapStyle}
@@ -37,6 +48,7 @@ const WidgetMap = ({ latitude, longitude }) => {
             latitudeDelta: 0.02,
             longitudeDelta: 0.02,
           }}
+          onPress={handleMapPress}
         >
           <Marker
             coordinate={{
