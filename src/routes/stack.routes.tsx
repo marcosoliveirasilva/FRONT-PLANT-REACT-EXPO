@@ -1,6 +1,5 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-//import ProfileScreen from '../screens/Profile';
 import ProfileScreen from '../pages/Profile/Index';
 import HistoricScreen from '../pages/Historic/Index';
 import Diagnostic from '../pages/Diagnostic/Index';
@@ -23,7 +22,7 @@ function ProfileNavigator() {
 function HistoricPage() {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name= 'Historic' component={HistoricScreen} />
+      <Stack.Screen name= 'HistoricPage' component={HistoricScreen} />
       <Stack.Screen name='Diagnostic' component={Diagnostic} />
       <Stack.Screen name= 'Store' component={Store} />
       <Stack.Screen name= 'Product' component={Product} />

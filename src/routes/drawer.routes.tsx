@@ -68,7 +68,7 @@ export default function DrawerRoutes() {
         }}
       />
       <Drawer.Screen
-        name="historic"
+        name="HistoricNavigator"
         component={HistoricNavigator}
         options={{
           drawerIcon: ({ color, size }) => <MaterialIcons name='history' color={color} size={size} />,
