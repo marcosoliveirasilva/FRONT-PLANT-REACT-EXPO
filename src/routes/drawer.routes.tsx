@@ -1,4 +1,4 @@
-import { useCallback, useContext } from 'react';
+import React, { useCallback, useContext } from 'react';
 import { Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Feather, MaterialIcons } from '@expo/vector-icons';
@@ -55,9 +55,22 @@ export default function DrawerRoutes() {
 
   return (
     <Drawer.Navigator
-      screenOptions={{ title: '' }}
       initialRouteName="home"
       drawerContent={CustomDrawerContent}
+      screenOptions={{
+        title: 'kawari',
+        headerStyle: {
+          backgroundColor: 'rgba(107, 142, 35, 0.8)',
+        },
+        headerTitleStyle: {
+          color: 'white',
+          fontSize: 25,
+          fontWeight: 'bold',
+        },
+        drawerLabelStyle: {
+          fontWeight: 'bold',
+        },
+      }}
     >
       <Drawer.Screen
         name="home"
