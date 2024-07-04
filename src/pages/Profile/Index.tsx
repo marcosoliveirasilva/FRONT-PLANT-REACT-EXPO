@@ -1,18 +1,26 @@
 import React, { useState, useContext, useEffect, useCallback } from 'react';
-import { Alert, TextInput } from 'react-native';
-
-import { AuthContext } from '../../contexts/auth';
-
+import { useFocusEffect } from '@react-navigation/native';
+import { TextInputMask } from 'react-native-masked-text';
 import {
+  Alert,
+  TextInput,
   View,
   Text,
   TouchableOpacity
 } from 'react-native';
 
 import * as Animatable from 'react-native-animatable';
-import { styles } from './Styles';
+
+import {
+  onlyNumbers,
+  validateCelular,
+  validateCPF,
+  validateNome,
+  validateTelefone
+} from '../../Services/fieldValidator';
+import { AuthContext } from '../../contexts/auth';
 import WidgetMap from './WidgetMap/Index';
-import { useFocusEffect } from '@react-navigation/native';
+import { styles } from './Styles';
 
 export default function ProfileScreen(){
   const { user, updateUser } = useContext(AuthContext);
@@ -39,7 +47,7 @@ export default function ProfileScreen(){
   const handleNewLocation = (newLocationCoords: React.SetStateAction<{}>) => {
     setLocationCoords({
       latitude: adjustDecimalPlaces(newLocationCoords.latitude, 6),
-      longitude:adjustDecimalPlaces(newLocationCoords.longitude, 6)
+      longitude: adjustDecimalPlaces(newLocationCoords.longitude, 6)
     });
   };
 
@@ -53,6 +61,23 @@ export default function ProfileScreen(){
   }, []);
 
   const handleUpdate = useCallback(() => {
+    if (!validateNome(nomeCompleto)) {
+      Alert.alert("Erro", "Por favor, insira um nome que contenha, no mínimo, cinco caracteres.");
+      return;
+    }
+    if (!validateCPF(cpf)) {
+      Alert.alert("Erro", "Por favor, insira um CPF válido no formato xxx.xxx.xxx-xx.");
+      return;
+    }
+    if (!validateCelular(telefoneCelular)) {
+      Alert.alert("Erro", "Por favor, insira um número de telefone celular válido no formato (xx) xxxxx-xxxx");
+      return;
+    }
+    if (!validateTelefone(telefoneFixo)) {
+      Alert.alert("Erro", "Por favor, insira um número de telefone celular válido no formato (xx) xxxx-xxxx");
+      return;
+    }
+
     Alert.alert(
       "Confirmar Atualizar",
       "Você tem certeza que deseja atualizar os dados de cadastro?",
@@ -67,9 +92,9 @@ export default function ProfileScreen(){
             try {
               let response = await updateUser({
                 "nomeCompleto": nomeCompleto,
-                "cpf": cpf,
-                "telefoneCelular": telefoneCelular,
-                "telefoneFixo": telefoneFixo,
+                "cpf": onlyNumbers(cpf),
+                "telefoneCelular": onlyNumbers(telefoneCelular),
+                "telefoneFixo": onlyNumbers(telefoneFixo),
                 "latitude": String(locationCoords.latitude),
                 "longitude": String(locationCoords.longitude)
               });
@@ -109,7 +134,8 @@ export default function ProfileScreen(){
         />
 
         <Text style={styles.title}>CPF</Text>
-        <TextInput
+        <TextInputMask
+          type={'cpf'}
           placeholder='Digite seu CPF...'
           style={styles.input}
           value={cpf}
@@ -117,7 +143,13 @@ export default function ProfileScreen(){
         />
 
         <Text style={styles.title}>Telefone Celular</Text>
-        <TextInput
+        <TextInputMask
+          type={'cel-phone'}
+          options={{
+            maskType: 'BRL',
+            withDDD: true,
+            dddMask: '(99) '
+          }}
           placeholder='Digite seu número...'
           style={styles.input}
           value={telefoneCelular}
@@ -125,7 +157,13 @@ export default function ProfileScreen(){
         />
 
         <Text style={styles.title}>Telefone Fixo</Text>
-        <TextInput
+        <TextInputMask
+          type={'cel-phone'}
+          options={{
+            maskType: 'BRL',
+            withDDD: true,
+            dddMask: '(99) '
+          }}
           placeholder='Digite seu número...'
           style={styles.input}
           value={telefoneFixo}
@@ -147,5 +185,3 @@ export default function ProfileScreen(){
     </View>
   )
 }
-
-
