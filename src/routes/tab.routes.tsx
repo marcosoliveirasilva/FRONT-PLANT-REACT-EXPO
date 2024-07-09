@@ -40,7 +40,10 @@ function Feed() {
 export default function TabRoutes() {
   return (
     <Tab.Navigator
-      screenOptions={{ headerShown: false }}
+    screenOptions={{
+      headerShown: false,
+      tabBarStyle: { backgroundColor: 'rgb(220, 250, 161)' },
+    }}
     >
       <Tab.Screen
         name="Feed"

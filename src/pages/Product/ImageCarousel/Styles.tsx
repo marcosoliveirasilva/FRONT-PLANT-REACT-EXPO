@@ -8,6 +8,7 @@ export const styles = StyleSheet.create({
     height: 200,
     alignItems: 'center',
     justifyContent: 'center',
+    backgroundColor: 'rgba(107, 142, 35, 0.1)',
     overflow: 'hidden',
   },
   backgroundFeed: {

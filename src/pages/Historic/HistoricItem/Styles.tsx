@@ -30,6 +30,8 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
+    backgroundColor: 'rgba(107, 142, 35, 0.1)',
+    borderRadius: 15,
   },
   product: {
     borderRadius: 15,

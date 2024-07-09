@@ -4,6 +4,7 @@ export const styles = StyleSheet.create({
   description: {
     borderRadius: 15,
     borderColor: 'rgba(107, 142, 35, 0.4)',
+    backgroundColor: 'rgba(107, 142, 35, 0.1)',
     borderWidth: 2,
     width: 370,
     height: 245,

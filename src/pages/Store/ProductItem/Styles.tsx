@@ -34,6 +34,7 @@ export const styles = StyleSheet.create({
   product: {
     borderRadius: 15,
     borderColor: 'rgba(107, 142, 35, 0.4)',
+    backgroundColor: 'rgba(107, 142, 35, 0.1)',
     borderWidth: 2,
     borderStyle: 'solid',
     width: '100%',
