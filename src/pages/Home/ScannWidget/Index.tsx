@@ -79,15 +79,23 @@ const ScannWidget = () => {
 
   if (loading) {
     return (
-      <View
-        style={{
-          flex: 1,
-          justifyContent: 'center',
-          alignItems: 'center',
-          backgroundColor: '#fff'
-        }}
-      >
-        <ActivityIndicator size={"large"} color={"#131313"}/>
+      <View style={styles.scannWidget}>
+        <ImageBackground
+          blurRadius={3}
+          source={require('../../../assets/background_scann.jpeg')}
+          style={styles.backgroundScann}
+        >
+          <View
+            style={{
+              flex: 1,
+              justifyContent: 'center',
+              alignItems: 'center',
+              backgroundColor: 'rgba(255,255,255,0.5)'
+            }}
+          >
+            <ActivityIndicator size={"large"} color={"#131313"}/>
+          </View>
+        </ImageBackground>
       </View>
     );
   }

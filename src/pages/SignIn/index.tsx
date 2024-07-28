@@ -1,19 +1,13 @@
-import React, { useState, useContext } from 'react';
-import { TextInput } from 'react-native';
+import React, { useState, useContext, useCallback } from 'react';
+import { View, Text, TouchableOpacity } from 'react-native';
+import { Alert, TextInput } from 'react-native';
 
 import { useNavigation } from '@react-navigation/native';
-
-import { AuthContext } from '../../contexts/auth';
-
-import {
-  View,
-  Text,
-  TouchableOpacity
-} from 'react-native';
-
-import { styles } from './styles';
-
 import * as Animatable from 'react-native-animatable';
+
+import { validateEmail } from '../../Services/fieldValidator';
+import { AuthContext } from '../../contexts/auth';
+import { styles } from './styles';
 
 export default function SignIn(){
   const navigation = useNavigation();
@@ -22,10 +16,14 @@ export default function SignIn(){
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
+  const handleLogin = useCallback(() => {
+    if (!validateEmail(email)) {
+      Alert.alert("Erro", "Por favor, insira um e-mail com formato válido.");
+      return;
+    }
 
-  function handleLogin(){
     signIn(email, password);
-  }
+  }, [email, password]);
 
   return(
     <View style={styles.container}>
@@ -50,6 +48,7 @@ export default function SignIn(){
         <TextInput
           placeholder='Sua senha'
           style={styles.input}
+          secureTextEntry={true}
           value={password}
           onChangeText={ (text) => setPassword(text) }
         />
@@ -67,5 +66,3 @@ export default function SignIn(){
     </View>
   )
 }
-
-

@@ -1,3 +1,7 @@
+const validateEmail = (email: string) => {
+  return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/.test(email);
+}
+
 const validateNome = (nomeCompleto: string) => {
   if (nomeCompleto.length > 4) {
     return true;
@@ -41,4 +45,4 @@ const onlyNumbers = (variable: string) => {
   return numsStr;
 };
 
-export { validateNome, validateCPF, validateCelular, validateTelefone, onlyNumbers };
+export { validateEmail, validateNome, validateCPF, validateCelular, validateTelefone, onlyNumbers };

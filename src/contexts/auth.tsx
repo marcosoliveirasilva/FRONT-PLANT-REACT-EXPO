@@ -4,6 +4,7 @@ import { api } from '../Services/api';
 import { useNavigation } from '@react-navigation/native';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Alert } from 'react-native';
 
 export const AuthContext = createContext({});
 
@@ -74,6 +75,7 @@ function AuthProvider({ children }): React.JSX.Element{
       setUser(response.data);
       setLoadingAuth(false);
     }catch(error){
+      Alert.alert("Erro", "Usuário ou senha inválidos.");
       console.log("ERRO AO LOGAR ", error);
       setLoadingAuth(false);
     }
